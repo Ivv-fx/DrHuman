@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
 
+import { JotaiProvider } from "@/providers/jotai-provider";
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
@@ -22,7 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={GeistSans.className}>
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <ConvexClientProvider>
+          <JotaiProvider>
+            {children}
+          </JotaiProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );

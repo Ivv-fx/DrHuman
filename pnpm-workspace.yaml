@@ -3,5 +3,7 @@ packages:
   - "packages/*"
 
 allowBuilds:
+  '@clerk/shared': set this to true or false
   "@parcel/watcher": true
+  '@swc/core': true
   esbuild: true
