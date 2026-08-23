@@ -15,6 +15,7 @@
     "@repo/backend": "workspace:*",
     "@repo/ui": "workspace:*",
     "@shadcn/react": "^0.3.0",
+    "@vapi-ai/web": "^2.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
