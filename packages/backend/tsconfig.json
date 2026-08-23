@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["convex/**/*"],
+  "exclude": ["node_modules"]
+}

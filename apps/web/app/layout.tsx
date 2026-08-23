@@ -5,6 +5,8 @@ import { GeistSans } from "geist/font/sans";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
+import { ConvexClientProvider } from "@/providers/convex-client-provider";
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
@@ -19,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className={GeistSans.className}>{children}</body>
+      <body className={GeistSans.className}>
+        <ConvexClientProvider>{children}</ConvexClientProvider>
+      </body>
     </html>
   );
 }
