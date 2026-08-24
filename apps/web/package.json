@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@clerk/shared"
+    ]
+  },
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
