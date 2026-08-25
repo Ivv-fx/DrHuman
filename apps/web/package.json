@@ -4,9 +4,12 @@
   "type": "module",
   "private": true,
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "@clerk/shared"
-    ]
+    "allowBuilds": {
+      "@clerk/shared": true,
+      "@parcel/watcher": true,
+      "@swc/core": true,
+      "esbuild": true
+    }
   },
   "scripts": {
     "dev": "next dev --port 3000",
@@ -29,13 +32,14 @@
     "embla-carousel-react": "^8.6.0",
     "geist": "1.7.2",
     "input-otp": "^1.5.0",
-    "lucide-react": "^1.33.0",
+    "lucide-react": "^1.33.1",
     "next": "16.3.1",
     "next-themes": "^0.4.6",
     "razorpay": "^2.9.8",
     "react": "19.2.8",
     "react-day-picker": "^10.0.1",
     "react-dom": "19.2.8",
+    "react-markdown": "^10.1.0",
     "react-resizable-panels": "^4.12.3",
     "recharts": "3.8.0",
     "shadcn": "^4.19.0",
