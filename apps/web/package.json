@@ -3,16 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "private": true,
-  "pnpm": {
-    "allowBuilds": {
-      "@clerk/shared": true,
-      "@parcel/watcher": true,
-      "@swc/core": true,
-      "esbuild": true
-    }
-  },
   "scripts": {
     "dev": "next dev --port 3000",
+    "prebuild": "pnpm --filter @repo/ui build:styles",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
