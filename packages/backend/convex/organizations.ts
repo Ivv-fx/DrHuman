@@ -2,6 +2,8 @@ import { action } from "./_generated/server";
 import { v } from "convex/values";
 import { createClerkClient } from "@clerk/backend";
 
+declare var process: { env: Record<string, string | undefined> };
+
 // We need a clerk secret key in our Convex env variables to query the clerk backend API
 const clerk = createClerkClient({ 
   secretKey: process.env.CLERK_SECRET_KEY, 

@@ -5,9 +5,10 @@ import { OpenAI } from "openai";
 
 // 1. Generate an upload URL
 export const generateUploadUrl = mutation({
+  args: {},
   handler: async (ctx) => {
     return await ctx.storage.generateUploadUrl();
-  },
+  }
 });
 
 // 2. Save the file metadata after upload
@@ -75,7 +76,8 @@ export const processFile = internalAction({
         input: text.slice(0, 8000), // OpenAI limits input size
         model: "text-embedding-3-small",
       });
-      const embedding = embeddingResponse.data[0].embedding;
+      const embedding = embeddingResponse.data[0]?.embedding;
+      if (!embedding) throw new Error("No embedding returned");
 
       // Update the file in DB
       await ctx.runMutation(internal.files.updateFileStatus, {

@@ -17,15 +17,18 @@ export default function DashboardLayout({
             <DashboardSidebar />
             
             <div className="flex flex-col flex-1 w-full min-w-0">
-              <header className="flex items-center justify-between h-14 px-4 border-b shrink-0">
-                <div className="flex items-center gap-2">
-                  <SidebarTrigger />
-                  <span className="font-semibold text-sm">Echo Dashboard</span>
+              {/* Top Header Bar */}
+              <header className="flex items-center justify-between h-14 px-4 border-b border-border/60 shrink-0 bg-background/80 backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                  <SidebarTrigger className="text-muted-foreground hover:text-foreground transition-colors" />
+                  <div className="w-px h-4 bg-border/60" />
+                  <span className="font-semibold text-sm tracking-tight">Echo Dashboard</span>
                 </div>
                 <ThemeToggle />
               </header>
               
-              <main className="flex-1 overflow-auto p-4 sm:p-6">
+              {/* Page Content — no extra padding; pages control their own layout */}
+              <main className="flex-1 overflow-auto">
                 {children}
               </main>
             </div>

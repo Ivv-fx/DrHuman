@@ -1,13 +1,14 @@
 "use client";
 
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import { OrganizationSwitcher, UserButton, useUser } from "@clerk/nextjs";
 import { 
   MessageSquare, 
   Files, 
   Settings, 
   Blocks, 
   Mic, 
-  CreditCard 
+  CreditCard,
+  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,72 +19,167 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
-const navItems = [
+const mainNav = [
   { title: "Conversations", url: "/conversations", icon: MessageSquare },
   { title: "Knowledge Base", url: "/files", icon: Files },
+];
+
+const configNav = [
   { title: "Customization", url: "/customization", icon: Settings },
   { title: "Integrations", url: "/integrations", icon: Blocks },
   { title: "Vapi Settings", url: "/plugins/vapi", icon: Mic },
+];
+
+const accountNav = [
   { title: "Billing", url: "/billing", icon: CreditCard },
 ];
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
-    <Sidebar>
-      <SidebarHeader className="p-4">
+    <Sidebar className="border-r border-border/60">
+      {/* Brand Header */}
+      <SidebarHeader className="px-4 py-5">
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-sm">
+            <Zap className="w-4 h-4 text-primary-foreground" />
+          </div>
+          <span className="font-bold text-base tracking-tight">Echo AI</span>
+        </div>
         <OrganizationSwitcher 
           hidePersonal
           appearance={{
             elements: {
               rootBox: "w-full",
-              organizationSwitcherTrigger: "w-full justify-between border rounded-md px-3 py-2",
+              organizationSwitcherTrigger:
+                "w-full justify-between rounded-lg px-3 py-2 text-sm border border-border/60 bg-muted/40 hover:bg-muted transition-colors",
             }
           }}
         />
       </SidebarHeader>
-      
-      <SidebarContent>
+
+      <SidebarContent className="px-2">
+        {/* Main Nav */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-[10px] font-semibold tracking-widest text-muted-foreground/70 uppercase px-2 mb-1">
+            Workspace
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainNav.map((item) => {
+                const active = pathname.startsWith(item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      isActive={active}
+                      className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
+                        active
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                      render={
+                        <Link href={item.url} className="flex items-center gap-3 w-full">
+                          <item.icon className="w-4 h-4 shrink-0" />
+                          <span>{item.title}</span>
+                        </Link>
+                      }
+                    />
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator className="my-3 opacity-50" />
+
+        {/* Config Nav */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-[10px] font-semibold tracking-widest text-muted-foreground/70 uppercase px-2 mb-1">
+            Configuration
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {configNav.map((item) => {
+                const active = pathname.startsWith(item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      isActive={active}
+                      className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
+                        active
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                      render={
+                        <Link href={item.url} className="flex items-center gap-3 w-full">
+                          <item.icon className="w-4 h-4 shrink-0" />
+                          <span>{item.title}</span>
+                        </Link>
+                      }
+                    />
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator className="my-3 opacity-50" />
+
+        {/* Account Nav */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    isActive={pathname.startsWith(item.url)}
-                    render={
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    }
-                  />
-                </SidebarMenuItem>
-              ))}
+              {accountNav.map((item) => {
+                const active = pathname.startsWith(item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      isActive={active}
+                      className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150 ${
+                        active
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                      render={
+                        <Link href={item.url} className="flex items-center gap-3 w-full">
+                          <item.icon className="w-4 h-4 shrink-0" />
+                          <span>{item.title}</span>
+                        </Link>
+                      }
+                    />
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 border-t">
-        <div className="flex items-center gap-3 px-2">
+      {/* Footer */}
+      <SidebarFooter className="px-4 py-4 border-t border-border/60">
+        <div className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-accent transition-colors cursor-pointer group">
           <UserButton 
             appearance={{
               elements: {
-                userButtonAvatarBox: "w-8 h-8",
+                userButtonAvatarBox: "w-8 h-8 ring-2 ring-border group-hover:ring-primary/30 transition-all",
               }
             }}
           />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium">My Account</span>
-            <span className="text-xs text-muted-foreground">Manage profile</span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm font-semibold truncate">{user?.firstName ?? "My Account"}</span>
+            <span className="text-xs text-muted-foreground truncate">{user?.primaryEmailAddress?.emailAddress ?? "Manage profile"}</span>
           </div>
         </div>
       </SidebarFooter>

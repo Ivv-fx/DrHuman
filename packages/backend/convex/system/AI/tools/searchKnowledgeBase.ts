@@ -1,7 +1,7 @@
 import { v } from "convex/values";
-import { internalAction } from "../../_generated/server";
+import { internalAction } from "../../../_generated/server";
 import { OpenAI } from "openai";
-import { internal } from "../../_generated/api";
+import { internal } from "../../../_generated/api";
 
 export const search = internalAction({
   args: {
@@ -15,7 +15,8 @@ export const search = internalAction({
       input: args.query,
       model: "text-embedding-3-small",
     });
-    const embedding = embeddingResponse.data[0].embedding;
+    const embedding = embeddingResponse.data[0]?.embedding;
+    if (!embedding) return "No embedding generated for query.";
 
     // 2. Search the vector index for similar documents
     const results = await ctx.vectorSearch("files", "by_embedding", {
@@ -40,8 +41,8 @@ export const search = internalAction({
   },
 });
 
-import { query } from "../../_generated/server";
-export const getFile = query({
+import { internalQuery } from "../../../_generated/server";
+export const getFile = internalQuery({
   args: { id: v.id("files") },
   handler: async (ctx, args) => {
     return await ctx.db.get(args.id);

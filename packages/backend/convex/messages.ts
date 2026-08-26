@@ -42,21 +42,16 @@ export const generateAIResponse = action({
     message: v.string(),
   },
   handler: async (ctx, args) => {
-    const threadId = await ctx.runQuery(api.messages.getThreadId, {
+    const conv = await ctx.runQuery(api.messages.getConversationDetails, {
       conversationID: args.conversationID,
     });
     
-    // We also need the org ID
-    const conv = await ctx.db.get(args.conversationID);
-    
-    if (threadId && conv) {
+    if (conv && conv.threadID) {
       try {
-        await supportAgent.addMessage({ 
-          threadId, 
-          role: "user", 
-          content: `[System Context: The ID of this conversation is ${args.conversationID}. The organizationID is ${conv.organizationID}. Use these if you need to call tools.]\n\nUser Message: ${args.message}` 
+        const { thread } = await supportAgent.continueThread(ctx, { threadId: conv.threadID });
+        await thread.generateText({
+          prompt: `[System Context: The ID of this conversation is ${args.conversationID}. The organizationID is ${conv.organizationID}. Use these if you need to call tools.]\n\nUser Message: ${args.message}`
         });
-        await supportAgent.run({ threadId });
       } catch (e) {
         console.error("Agent run failed:", e);
       }
@@ -64,10 +59,9 @@ export const generateAIResponse = action({
   },
 });
 
-export const getThreadId = query({
+export const getConversationDetails = query({
   args: { conversationID: v.id("conversations") },
   handler: async (ctx, args) => {
-    const conv = await ctx.db.get(args.conversationID);
-    return conv?.threadID;
+    return await ctx.db.get(args.conversationID);
   }
 });

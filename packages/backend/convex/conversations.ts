@@ -1,13 +1,14 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { supportAgent } from "./system/AI/agents/supportAgent";
+import { Id } from "./_generated/dataModel";
 
 export const create = mutation({
   args: {
     organizationID: v.string(),
     contactSessionID: v.id("contact_sessions"),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<Id<"conversations">> => {
     // Validate session
     const session = await ctx.db.get(args.contactSessionID);
     if (!session || session.organizationID !== args.organizationID || session.expiresAt < Date.now()) {
@@ -16,9 +17,10 @@ export const create = mutation({
 
     // Create a new thread using the AI agent
     // Since supportAgent isn't fully set up yet, we will mock the thread ID if it's missing.
-    let threadID = undefined;
+    let threadID: string | undefined = undefined;
     try {
-      threadID = await supportAgent.createThread();
+      const result = await supportAgent.createThread(ctx);
+      threadID = result.threadId;
     } catch (e) {
       console.warn("Failed to create AI thread, continuing without it.", e);
     }
@@ -27,7 +29,7 @@ export const create = mutation({
       organizationID: args.organizationID,
       contactSessionID: args.contactSessionID,
       threadID,
-      status: "unresolved",
+      status: "unresolved" as const,
     });
   },
 });
