@@ -51,10 +51,11 @@ export function DashboardSidebar() {
       {/* Brand Header */}
       <SidebarHeader className="px-4 py-5">
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-sm">
-            <Zap className="w-4 h-4 text-primary-foreground" />
+          <div className="relative w-8 h-8 rounded-lg flex items-center justify-center shadow-sm overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-200 via-green-100 to-teal-200 opacity-90 blur-[1px]"></div>
+            <Zap className="w-4 h-4 text-emerald-700 relative z-10" />
           </div>
-          <span className="font-bold text-base tracking-tight">Echo AI</span>
+          <span className="font-bold text-base tracking-tight bg-gradient-to-r from-emerald-800 to-green-600 bg-clip-text text-transparent">DrHuman AI</span>
         </div>
         <OrganizationSwitcher 
           hidePersonal

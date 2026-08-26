@@ -9,7 +9,7 @@ import { ConvexClientProvider } from "@/providers/convex-client-provider";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -23,7 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
-      <body className={GeistSans.className}>
+      <body
+        className={cn(GeistSans.className, "min-h-screen bg-cover bg-center bg-no-repeat bg-fixed relative")}
+        style={{ backgroundImage: "url('/bg-meadow.jpg')" }}
+      >
+        <div className="fixed inset-0 bg-background/30 backdrop-blur-[1px] pointer-events-none z-[-1]" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

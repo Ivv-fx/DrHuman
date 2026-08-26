@@ -12,7 +12,7 @@ const scriptTag = document.currentScript as HTMLScriptElement;
 const orgId = scriptTag?.getAttribute("data-org-id");
 
 if (!orgId) {
-  console.error("Echo Widget: Missing data-org-id attribute on script tag");
+  console.error("DrHuman Widget: Missing data-org-id attribute on script tag");
 }
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -30,10 +30,10 @@ const App = () => {
 };
 
 // Create root div if it doesn't exist
-let rootDiv = document.getElementById("echo-widget-root");
+let rootDiv = document.getElementById("drhuman-widget-root");
 if (!rootDiv) {
   rootDiv = document.createElement("div");
-  rootDiv.id = "echo-widget-root";
+  rootDiv.id = "drhuman-widget-root";
   document.body.appendChild(rootDiv);
 }
 

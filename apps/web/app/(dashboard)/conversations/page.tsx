@@ -15,7 +15,7 @@ export default function ConversationsPage() {
       {selectedId ? (
         <ConversationView conversationId={selectedId} />
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-8 bg-muted/20">
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-8 bg-transparent">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center shadow-sm">
             <MessageSquare className="w-8 h-8 text-primary" />
           </div>

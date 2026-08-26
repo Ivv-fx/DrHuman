@@ -34,7 +34,7 @@ export function ConversationList({ onSelect, selectedId }: ConversationListProps
   const unresolvedCount = conversations?.filter((c) => c.status === "unresolved").length ?? 0;
 
   return (
-    <div className="w-80 border-r border-border/60 h-[calc(100vh-3.5rem)] overflow-hidden flex flex-col bg-background">
+    <div className="w-80 border-r border-border/60 h-[calc(100vh-3.5rem)] overflow-hidden flex flex-col bg-transparent">
       {/* Header */}
       <div className="px-5 py-4 border-b border-border/60 shrink-0">
         <div className="flex items-center justify-between">
