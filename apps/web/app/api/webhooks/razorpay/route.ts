@@ -1,4 +1,4 @@
-import { NextResponse } from "next";
+import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { fetchMutation } from "convex/nextjs";
 import { api } from "@repo/backend/convex/_generated/api";

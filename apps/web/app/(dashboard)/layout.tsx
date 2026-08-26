@@ -3,6 +3,7 @@ import { OrganizationGuard } from "@/modules/auth/ui/organization-guard";
 import { DashboardSidebar } from "@/modules/dashboard/ui/dashboard-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Toaster } from "sonner";
 
 export default function DashboardLayout({
   children,
@@ -35,6 +36,7 @@ export default function DashboardLayout({
               </div>
             </div>
           </div>
+          <Toaster richColors position="top-center" />
         </SidebarProvider>
       </OrganizationGuard>
     </AuthGuard>

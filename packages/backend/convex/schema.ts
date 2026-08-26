@@ -23,7 +23,8 @@ export default defineSchema({
     organizationID: v.string(),
     contactSessionID: v.id("contact_sessions"),
     threadID: v.optional(v.string()), // OpenAI Thread ID
-    status: v.union(v.literal("unresolved"), v.literal("escalated"), v.literal("resolved")),
+    status: v.union(v.literal("unresolved"), v.literal("pending"), v.literal("escalated"), v.literal("resolved")),
+    unreadCount: v.optional(v.number()), // increments on visitor messages, resets when operator views
   })
     .index("by_organizationID", ["organizationID"])
     .index("by_contactSessionID", ["contactSessionID"])

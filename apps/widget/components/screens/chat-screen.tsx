@@ -67,9 +67,11 @@ export function ChatScreen() {
                   : "bg-muted"
               }`}
             >
-              <ReactMarkdown className="prose prose-sm dark:prose-invert break-words">
-                {msg.content}
-              </ReactMarkdown>
+              <div className="prose prose-sm dark:prose-invert break-words">
+                <ReactMarkdown>
+                  {msg.content}
+                </ReactMarkdown>
+              </div>
             </div>
           ))}
           {messages?.length === 0 && (

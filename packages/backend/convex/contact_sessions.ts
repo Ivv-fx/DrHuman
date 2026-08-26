@@ -44,3 +44,12 @@ export const validate = query({
     return true;
   },
 });
+
+export const getOne = query({
+  args: {
+    sessionID: v.id("contact_sessions"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.sessionID);
+  },
+});

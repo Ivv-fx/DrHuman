@@ -7,6 +7,7 @@ export const create = mutation({
   args: {
     conversationID: v.id("conversations"),
     content: v.string(),
+    role: v.optional(v.union(v.literal("user"), v.literal("assistant"), v.literal("system"))),
   },
   handler: async (ctx, args) => {
     const conversation = await ctx.db.get(args.conversationID);
@@ -16,9 +17,18 @@ export const create = mutation({
 
     const messageId = await ctx.db.insert("messages", {
       conversationID: args.conversationID,
-      role: "user",
+      role: args.role ?? "user",
       content: args.content,
     });
+
+    // Increment unread count when a visitor sends a message (not operator/AI)
+    const effectiveRole = args.role ?? "user";
+    if (effectiveRole === "user") {
+      const currentUnread = conversation.unreadCount ?? 0;
+      await ctx.db.patch(args.conversationID, {
+        unreadCount: currentUnread + 1,
+      });
+    }
 
     return messageId;
   },

@@ -64,11 +64,21 @@ export const getDashboardMetrics = query({
       });
     }
 
+    const unresolvedConversations = conversations.filter(
+      (c) => c.status === "unresolved"
+    ).length;
+    const pendingConversations = conversations.filter(
+      (c) => c.status === "pending" || c.status === "escalated"
+    ).length;
+
     return {
       widgetViews,
       totalConversations,
       aiResolutionRate,
       escalatedConversations,
+      unresolvedConversations,
+      pendingConversations,
+      resolvedConversations,
       chartData,
     };
   },
