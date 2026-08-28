@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Test Page</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f4f4f5;
+    }
+    .test-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-box">
+    <h1>Widget Integration Test</h1>
+    <p>The DrHuman widget should appear on this page. Check the bottom right corner or wherever it anchors by default!</p>
+    <p>This page is loading <code>/widget.js</code> directly from this web app's public folder.</p>
+  </div>
+
+  <!-- Option 1: Global Config approach (preferred) -->
+  <script>
+    window.DrHumanWidgetConfig = {
+      orgId: "org_3IPbPBHxH6nc1lqVqGH0XzdfVrz"
+    };
+  </script>
+
+  <!-- Option 2: Script Tag approach -->
+  <script src="/widget.js" data-org-id="org_3IPbPBHxH6nc1lqVqGH0XzdfVrz"></script>
+</body>
+</html>

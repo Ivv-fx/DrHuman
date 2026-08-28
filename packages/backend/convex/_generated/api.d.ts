@@ -8,9 +8,11 @@
  * @module
  */
 
+import type * as calls from "../calls.js";
 import type * as contact_sessions from "../contact_sessions.js";
 import type * as conversations from "../conversations.js";
 import type * as files from "../files.js";
+import type * as http from "../http.js";
 import type * as messages from "../messages.js";
 import type * as organizations from "../organizations.js";
 import type * as private_analytics from "../private/analytics.js";
@@ -30,9 +32,11 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  calls: typeof calls;
   contact_sessions: typeof contact_sessions;
   conversations: typeof conversations;
   files: typeof files;
+  http: typeof http;
   messages: typeof messages;
   organizations: typeof organizations;
   "private/analytics": typeof private_analytics;

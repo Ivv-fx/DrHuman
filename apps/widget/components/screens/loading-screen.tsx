@@ -18,7 +18,6 @@ export function LoadingScreen() {
 
     async function checkSetup() {
       if (!organizationID) {
-        if (mounted) setScreen("error");
         return;
       }
 

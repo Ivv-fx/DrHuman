@@ -1,12 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
+﻿import { useEffect, useState, useCallback } from "react";
 import Vapi from "@vapi-ai/web";
+import type { VoiceHookResult } from "./use-dograh";
 
 const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || "dummy-key");
 
-export function useVapi() {
+export function useVapi(): VoiceHookResult {
   const [isConnecting, setIsConnecting] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-  const [transcript, setTranscript] = useState("");
+  const [isConnected,  setIsConnected]  = useState(false);
+  const [transcript,   setTranscript]   = useState("");
 
   useEffect(() => {
     vapi.on("call-start", () => {
@@ -20,14 +21,14 @@ export function useVapi() {
       setTranscript("");
     });
 
-    vapi.on("message", (message) => {
+    vapi.on("message", (message: any) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
         setTranscript((prev) => prev + " " + message.text);
       }
     });
 
-    vapi.on("error", (error) => {
-      console.error(error);
+    vapi.on("error", (error: any) => {
+      console.error("[Vapi] Error:", error);
       setIsConnecting(false);
       setIsConnected(false);
     });
@@ -37,12 +38,17 @@ export function useVapi() {
     };
   }, []);
 
-  const startCall = useCallback(async (assistantId: string) => {
+  const startCall = useCallback(async (
+    assistantId: string,
+    metadata: Record<string, string> = {}
+  ) => {
     setIsConnecting(true);
+    setTranscript("");
     try {
-      await vapi.start(assistantId);
+      // Pass metadata so Vapi sends it back in webhook payloads
+      await vapi.start(assistantId, { metadata });
     } catch (error) {
-      console.error("Failed to start call", error);
+      console.error("[Vapi] Failed to start call:", error);
       setIsConnecting(false);
     }
   }, []);
@@ -51,11 +57,5 @@ export function useVapi() {
     vapi.stop();
   }, []);
 
-  return {
-    isConnecting,
-    isConnected,
-    transcript,
-    startCall,
-    endCall,
-  };
+  return { isConnecting, isConnected, transcript, startCall, endCall };
 }

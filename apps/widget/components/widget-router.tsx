@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useAtomValue } from "jotai";
 import { screenAtom } from "@/store/widget-store";
@@ -7,6 +7,8 @@ import { ErrorScreen } from "./screens/error-screen";
 import { OutScreen } from "./screens/out-screen";
 import { SelectionScreen } from "./screens/selection-screen";
 import { ChatScreen } from "./screens/chat-screen";
+import { VoiceScreen } from "./screens/voice-screen";
+import { VoiceSettingsScreen } from "./screens/voice-settings-screen";
 
 export function WidgetRouter() {
   const screen = useAtomValue(screenAtom);
@@ -22,6 +24,10 @@ export function WidgetRouter() {
       return <SelectionScreen />;
     case "chat":
       return <ChatScreen />;
+    case "voice":
+      return <VoiceScreen />;
+    case "settings":
+      return <VoiceSettingsScreen />;
     default:
       return null;
   }

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "prebuild": "pnpm --filter @repo/ui build:styles",
+    "prebuild": "pnpm --filter @repo/ui build:styles && pnpm --filter widget build:widget && node -e \"require('fs').copyFileSync('../widget/public/widget.js', './public/widget.js')\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",

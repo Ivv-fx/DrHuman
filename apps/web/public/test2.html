@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Widget Debug Page</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f4f4f5; }
+    #log { background: #111; color: #0f0; padding: 1rem; font-family: monospace; border-radius: 8px; white-space: pre-wrap; height: 300px; overflow: auto; }
+  </style>
+  <script>
+    window.logs = [];
+    function logMsg(msg) {
+      window.logs.push(msg);
+      const logEl = document.getElementById('log');
+      if (logEl) {
+        logEl.innerHTML += msg + '\n';
+      }
+    }
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+      logMsg('ERROR: ' + msg + '\n' + (error ? error.stack : ''));
+      return false;
+    };
+    const originalConsoleError = console.error;
+    console.error = function(...args) {
+      logMsg('CONSOLE ERROR: ' + args.join(' '));
+      originalConsoleError.apply(console, args);
+    };
+    
+    // Catch unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+      logMsg('UNHANDLED PROMISE REJECTION: ' + (event.reason ? event.reason.stack || event.reason : event));
+    });
+  </script>
+</head>
+<body>
+  <h1>Widget Debug Test</h1>
+  <div id="log"></div>
+
+  <script>
+    window.DrHumanWidgetConfig = {
+      orgId: "org_3IPbPBHxH6nc1lqVqGH0XzdfVrz"
+    };
+  </script>
+  <script src="/widget.js" data-org-id="org_3IPbPBHxH6nc1lqVqGH0XzdfVrz"></script>
+</body>
+</html>

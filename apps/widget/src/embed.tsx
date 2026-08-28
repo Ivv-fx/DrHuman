@@ -7,12 +7,21 @@ import { ConvexReactClient } from "convex/react";
 import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import "../app/globals.css";
 
-// The script tag loading this file should have data-org-id attribute
+declare global {
+  interface Window {
+    DrHumanWidgetConfig?: {
+      orgId: string;
+    };
+  }
+}
+
+// Get config from global window object (preferred for async loading) or script tag
+const globalConfig = window.DrHumanWidgetConfig;
 const scriptTag = document.currentScript as HTMLScriptElement;
-const orgId = scriptTag?.getAttribute("data-org-id");
+const orgId = globalConfig?.orgId || scriptTag?.getAttribute("data-org-id");
 
 if (!orgId) {
-  console.error("DrHuman Widget: Missing data-org-id attribute on script tag");
+  console.error("DrHuman Widget: Missing Organization ID. Please provide it via window.DrHumanWidgetConfig.orgId or data-org-id attribute on the script tag.");
 }
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -29,13 +38,27 @@ const App = () => {
   );
 };
 
-// Create root div if it doesn't exist
-let rootDiv = document.getElementById("drhuman-widget-root");
-if (!rootDiv) {
-  rootDiv = document.createElement("div");
-  rootDiv.id = "drhuman-widget-root";
-  document.body.appendChild(rootDiv);
-}
+const initWidget = () => {
+  // Create root div if it doesn't exist
+  let rootDiv = document.getElementById("drhuman-widget-root");
+  if (!rootDiv) {
+    rootDiv = document.createElement("div");
+    rootDiv.id = "drhuman-widget-root";
+    
+    if (!document.body) {
+      console.error("DrHuman Widget: document.body is not available to mount the widget.");
+      return;
+    }
+    document.body.appendChild(rootDiv);
+  }
 
-const root = createRoot(rootDiv);
-root.render(<App />);
+  const root = createRoot(rootDiv);
+  root.render(<App />);
+};
+
+// Wait for DOM to be ready to avoid crashing if script is placed in <head>
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initWidget);
+} else {
+  initWidget();
+}
